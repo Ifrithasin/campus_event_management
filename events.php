@@ -16,6 +16,8 @@ if ($conn->connect_error) {
 $current_date = date('Y-m-d');
 
 // Fetch upcoming events (events with date in the future)
+$today_sql="SELECT * FROM events WHERE  Date='$current_date' ORDER BY Date ASC";
+$today=$conn->query($today_sql);
 $upcoming_sql = "SELECT * FROM events WHERE Date > '$current_date' ORDER BY Date ASC";
 
 $upcoming = $conn->query($upcoming_sql);
@@ -118,7 +120,25 @@ function formatEventDate($date) {
         <h1>Events</h1>
         <p>Stay updated with our latest and past events</p>
     </div>
-
+    <div class="section events" id="today">
+<h2>Events for today</h2>
+<?php
+    if ($today ->num_rows > 0) {
+    while($row = $today ->fetch_assoc()) {
+        echo "<div class='event'>";
+        echo "<h3>" . htmlspecialchars($row["title"]) . "</h3>";
+        echo "<p>Date: " . formatEventDate($row["Date"]) . "</p>";
+        echo "<p>Location: " . htmlspecialchars($row["Location"]) . "</p>";
+        echo "<p>Description: " . htmlspecialchars($row["Description"]) . "</p>";
+        echo "<button class='register-btn' onclick=\"location.href='eventRegister.php'\">Register</button>";
+        echo "</div>";
+    }
+}
+        else {
+            echo "<p>No events for today.</p>";
+        }
+        ?>
+    </div>
     <div class="section events" id="upcoming">
     <h2>Upcoming Events</h2>
         <?php
@@ -129,7 +149,7 @@ function formatEventDate($date) {
                 echo "<p>Date: " . formatEventDate($row["Date"]) . "</p>";
                 echo "<p>Location: " . htmlspecialchars($row["location"]) . "</p>";
                 echo "<p>Description: " . htmlspecialchars($row["Description"]) . "</p>";
-                echo "<button class='register-btn'>Register</button>";
+                echo "<button class='register-btn' onclick=\"location.href='eventRegister.php'\">Register</button>";
                 echo "</div>";
             }
         } else {
