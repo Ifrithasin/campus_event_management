@@ -122,8 +122,8 @@ function formatEventDate($date) {
     <div class="section events" id="upcoming">
     <h2>Upcoming Events</h2>
         <?php
-        if ($upcoming_result->num_rows > 0) {
-            while($row = $upcoming_result->fetch_assoc()) {
+        if ($upcoming ->num_rows > 0) {
+            while($row = $upcoming ->fetch_assoc()) {
                 echo "<div class='event'>";
                 echo "<h3>" . htmlspecialchars($row["title"]) . "</h3>";
                 echo "<p>Date: " . formatEventDate($row["Date"]) . "</p>";
@@ -140,8 +140,8 @@ function formatEventDate($date) {
     <div class="section events" id="past">
         <h2>Past Events</h2>
         <?php
-        if ($past_result->num_rows > 0) {
-            while($row = $past_result->fetch_assoc()) {
+        if ($past->num_rows > 0) {
+            while($row = $past->fetch_assoc()) {
                 echo "<div class='event'>";
                 echo "<h3>" . htmlspecialchars($row["title"]) . "</h3>";
                 echo "<p>Date: " . formatEventDate($row["Date"]) . "</p>";
